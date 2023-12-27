@@ -1,0 +1,102 @@
+using System;
+using System.Collections.Generic;
+
+public class Hastane
+{
+    public string Ad { get; set; }
+    public string Soyad { get; set; }
+    public string TC { get; private set; }
+    public string Cinsiyet { get; set; }
+
+    public Hastane(string ad, string soyad, string tc, string cinsiyet)
+    {
+        Ad = ad;
+        Soyad = soyad;
+        TC = tc;
+        Cinsiyet = cinsiyet;
+    }
+
+    public virtual void BilgileriYazdir()
+    {
+        Console.WriteLine($"Ad: {Ad}, Soyad: {Soyad}, TC: {TC}, Cinsiyet: {Cinsiyet}");
+    }
+}
+
+public class HastaneCalisanlari : Hastane
+{
+    public string SicilNo { get; private set; }
+    public int EkGosterge { get; set; }
+    public string CalistigiDepartman { get; set; }
+
+    public HastaneCalisanlari(string ad, string soyad, string tc, string cinsiyet, string sicilNo, int ekGosterge, string calistigiDepartman)
+        : base(ad, soyad, tc, cinsiyet)
+    {
+        SicilNo = sicilNo;
+        EkGosterge = ekGosterge;
+        CalistigiDepartman = calistigiDepartman;
+    }
+
+    public override void BilgileriYazdir()
+    {
+        base.BilgileriYazdir();
+        Console.WriteLine($"Sicil No: {SicilNo}, Çalıştığı Departman: {CalistigiDepartman}");
+    }
+
+    public virtual double MaasHesapla()
+    {
+        if (EkGosterge <= 1500)
+            return 15000;
+        else if (EkGosterge <= 2200)
+            return 20000;
+        else if (EkGosterge <= 3000)
+            return 30000;
+        else if (EkGosterge <= 3600)
+            return 40000;
+        else
+            return 0;
+    }
+}
+
+public class Hasta : Hastane
+{
+    public DateTime YatisTarihi { get; set; }
+    public string PoliklinikBilgisi { get; set; }
+
+    public Hasta(string ad, string soyad, string tc, string cinsiyet, DateTime yatisTarihi, string poliklinikBilgisi)
+        : base(ad, soyad, tc, cinsiyet)
+    {
+        YatisTarihi = yatisTarihi;
+        PoliklinikBilgisi = poliklinikBilgisi;
+    }
+
+    public override void BilgileriYazdir()
+    {
+        base.BilgileriYazdir();
+        Console.WriteLine($"Yatış Tarihi: {YatisTarihi}, Poliklinik Bilgisi: {PoliklinikBilgisi}");
+    }
+}
+
+public class Doktor : HastaneCalisanlari
+{
+    public string DiplomaNo { get; private set; }
+    public string Brans { get; set; }
+
+    public Doktor(string ad, string soyad, string tc, string cinsiyet, string sicilNo, int ekGosterge, string calistigiDepartman, string diplomaNo, string brans)
+        : base(ad, soyad, tc, cinsiyet, sicilNo, ekGosterge, calistigiDepartman)
+    {
+        DiplomaNo = diplomaNo;
+        Brans = brans;
+    }
+
+    public override void BilgileriYazdir()
+    {
+        base.BilgileriYazdir();
+        Console.WriteLine($"Diploma No: {DiplomaNo}, Branş: {Brans}");
+    }
+
+    public override double MaasHesapla()
+    {
+        // Doktor maaş hesaplama işlemleri
+        return base.MaasHesapla();
+    }
+}
